@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Calcul de stockage</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #cccbcb;
+        }
+
+        header {
+            background-color: #7e828b;
+            padding: 30px;
+            text-align: center;
+            background-image: url("logo.png");
+            background-repeat: no-repeat;
+            background-position: left;
+            background-size: contain;
+        }
+
+        h1 {
+            color: #e2e1e1;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 900px;
+        }
+        h3 {
+            color: #e2e1e1;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 1000px;
+        }
+
+        .blur-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url("background-image.jpg");
+            /* Remplacez "background-image.jpg" par l'URL de votre image de fond */
+            background-repeat: no-repeat;
+            background-size: cover;
+            filter: blur(7px);
+            /* Ajustez la valeur de flou selon vos préférences */
+        }
+
+        .container1 {
+            max-width: 1200px;
+            margin: 10px auto;
+            padding: 3px;
+            background-color: #707884d8;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgb(194, 194, 194));
+            margin-top: 10px;
+            /* Ajustez la valeur selon la hauteur de votre en-tête */
+            /* Autres styles de la div container */
+        }
+
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+
+        }
+
+        .btn-primary {
+            background-color: #c10909;
+
+            margin-top: -70px;
+            margin-left: 400px;
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+
+
+        }
+        .btn-primary:hover {
+            background-color: #63cbcb;
+        }
+
+        .btn-secondary {
+            background-color: #758181;
+            margin-top: -70px;
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+
+        }
+        .btn-secondary:hover {
+            background-color: #f96f6f;
+        }
+
+        .export-btn {
+            background-color: green;
+            margin-top: -93px;
+            margin-left: 655px;
+            color: white;
+            padding: 6.5px;
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+
+        }
+        .export-btn:hover {
+            background-color: #6aeb6a;
+        }
+
+        .btn-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            margin-right: 10px;
+        }
+
+        .result {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .additional-table {
+            margin-top: 20px;
+        }
+
+
+            /*CALCUL HDD*/
+
+
+            .container2 {
+                max-width: 1200px;
+                max-height: 500px;
+                margin: 50px auto;
+                margin-block-start: 0px;
+                background-color: #47516b96;
+                box-shadow: 0 2px 8px rgba(75, 26, 26, 0.1);
+                border-radius: 10px;
+                padding: 2px;
+                text-align: center;
+            }
+
+
+            label {
+                display: block;
+                margin-bottom: 1px;
+                margin-top:1px;
+                margin-left: 5px;
+                color: #000000;
+            }
+            label1 {
+                display: block;
+                margin-bottom: 1px;
+                margin-top:1px;
+                margin-left: -1000px;
+                color: #000000;
+            }
+
+            input {
+                padding: 8px;
+                width: 100%;
+                max-width: 150px;
+                margin-left: 1px;
+                /* Réduit la largeur maximale du champ de texte */
+                border: 1px solid #dddddd;
+                border-radius: 4px;
+            }
+
+
+            .buttons {
+                margin-top: 10px;
+            }
+
+            .buttons button {
+                padding: 50px 20px;
+                margin: 0px;
+                background-color: #c10909;
+                color: #ffffff;
+                border: none;
+                margin-top:-10px;
+                position: relative;
+                top: -120px;
+                left: -0px;
+                margin-left: 15px;
+                border: none;
+                border-radius: 10px;
+                text-transform: uppercase;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            .buttons button:hover {
+                background-color: #65707c;
+            }
+
+            .result-container {
+                
+
+                color: #333333;
+                background-color: #baeadc;
+                padding: 5px;
+                border-radius: 6px;
+                margin-bottom: 10px; 
+                margin-top:-100px;
+                
+
+            }
+
+            .result-container1 {
+                
+
+                color: #333333;
+                background-color: #97b5d5;
+                padding: 3px;
+                border-radius: 6px;
+                margin-bottom: 10px; 
+                margin-top:-7px;
+                
+                
+
+            }
+
+            .result-container h3 {
+                color: #011948;
+                margin-bottom: 10px;
+                font-size: 16px;
+
+            }
+            .result-container1 h3 {
+                color: #011948;
+                margin-bottom: 10px;
+                font-size: 16px;
+
+            }
+
+            .result-container p {
+                margin: 5px 0;
+                font-size: 16px;
+                color: #011948;
+                
+            }
+
+            
+            .result-container1 p {
+                margin: 5px 0;
+                font-size: 16px;
+                color: #011948;
+                
+            }
+
+
+        /* SROOOOOLLLLL*/
+            .table-container {
+            height: 200px;
+            /* Définissez la hauteur souhaitée */
+            overflow: auto;
+
+            .sticky-header {
+                position: sticky;
+                top: 0;
+                background-color: #ffffff;
+                z-index: 1;
+            }
+
+            .new_container {
+                max-width: 1200px;
+                margin: 0px auto;
+                padding: 3px background-color: #9da7b5d2;
+                border-radius: 20px;
+                box-shadow: 0 4px 8px rgb(161, 26, 26));
+                margin-top: 10px
+            }
+
+            
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <div class="container1">
+        <h1>Calcul de stockage</h1>
+
+        </header>
+
+        <div class="blur-background"></div>
+        <div class="new_container">
+            <form id="storage-form">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="cameras">Nombre de caméras :</label>
+                        <input type="text" class="form-control" id="cameras" name="cameras" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="hours_per_day">Heures par jour :</label>
+                        <input type="text" class="form-control" id="hours_per_day" name="hours_per_day" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="days">Nombre de jours :</label>
+                        <input type="text" class="form-control" id="days" name="days" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="resolution">Résolution :</label>
+                        <select class="form-control" id="resolution" name="resolution" required>
+                            <option value="1MP (1280 x 720)">1MP (1280 x 720)</option>
+                            <option value="1.3MP (1280 x 1024)">1.3MP (1280 x 1024)</option>
+                            <option value="SXGA (1280 x 960)">SXGA (1280 x 960)</option>
+                            <option value="2 (1920 x 1080)">2MP (1920 x 1080)</option>
+                            <option value="2.3 (1920 x 1200)">2.3MP (1920 x 1200)</option>
+                            <option value="3 (2048 x 1536)">3MP (2048 x 1536)</option>
+                            <option value="4 (2590 x 1520)">4MP (2590 x 1520)</option>
+                            <option value="5 (2560 x 1960)">5MP (2560 x 1960)</option>
+                            <option value="6 (3072 x 2048)">6MP (3072 x 2048)</option>
+                            <option value="8 (3840 x 2160)">8MP (3840 x 2160)</option>
+                            <option value="12 (4000 x 3072)">12MP (4000 x 3072)</option>
+                            <option value="32 (7680 x 4320)">32MP (7680 x 4320)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="frame_rate">Frame Rate (I/s) :</label>
+                        <select class="form-control" id="frame_rate" name="frame_rate" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                            <option value="60">60</option>
+                        </select>
+                    </div>
+                </div>
+                <di class="row">
+                    <div class="col-md-2">
+                        <label for="quality">Qualité :</label>
+                        <select class="form-control" id="quality" name="quality" required>
+                            <option value="8">Bas</option>
+                            <option value="16">Moyenne</option>
+                            <option value="24">Haut</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="compression">Compression :</label>
+                        <select class="form-control" id="compression" name="compression" required>
+                            <option value="4">MPEG</option>
+                            <option value="80">H.264</option>
+                            <option value="136">H.265</option>
+                            <option value="300">H.265+</option>
+                        </select>
+                    </div>
+                    
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Calculer</button>
+            <button type="button" class="btn btn-secondary" id="reset-btn">Réinitialiser</button>
+        </div>
+        </form>
+
+        <div class="btn-container">
+            <button id="export-btn" class="export-btn">Exporter</button>
+        </div>
+        <div class="table-container">
+            <table class="table" id="results-table">
+                <thead>
+
+                    <tr class="sticky-header">
+                        <th scope="col">No.</th>
+                        <th scope="col">Nb de caméras</th>
+                        <th scope="col">Hr/j</th>
+                        <th scope="col">Nb de jours</th>
+                        <th scope="col">Résolution [Mpixels]</th>
+                        <th scope="col">Taille du stockage</th>
+                        <th scope="col">Bit rate (Kbps)</th>
+                        <th scope="col">Bit rate (Mbps)</th>
+                        
+
+                    </tr>
+                </thead>
+
+                <tbody id="results-body">
+                </tbody>
+
+            </table>
+        </div>
+        <div id="total-storage"></div>
+        <div id="total-bitrate"></div>
+
+        <div class="container2">
+            <h3>Calcul HDD</h3>
+            <form>
+            <div class="col-md-2">
+                <label for="total-hdd">Total taille HDD:</label>
+                <input type="text" id="total-hdd">
+
+                <label for="unit-hdd">Taille unitaire HDD:</label>
+                <input type="text" id="unit-hdd">
+            </div>
+
+            <div class="col-md-14">
+                <div class="buttons">
+                    <button type="button" onclick="calculateJBOD()">JBOD</button>
+                    <button type="button" onclick="calculateRAID0()">RAID0</button>
+                    <button type="button" onclick="calculateRAID1()">RAID1</button>
+                    <button type="button" onclick="calculateRAID5()">RAID5</button>
+                    <button type="button" onclick="calculateRAID10()">RAID10</button>
+                </div>
+            </div>
+            </form>
+
+            
+            <div class="result">
+
+                <div class="result-container">
+                    <h3>Résultat:</h3>
+                    <p id="result-text"></p>
+                </div>
+            
+                <div class="result-container1">
+                    <h3>Volume [TB]:</h3>
+                    <p id="volume-text"></p>
+                </div>
+            </div>
+            
+        </div>
+
+
+
+        
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+        <script>
+            // Fonction pour calculer la taille du stockage
+            function calculateStorage() {
+                // Obtenir les valeurs des champs du formulaire
+                const cameras = parseInt($('#cameras').val());
+                const hoursPerDay = parseInt($('#hours_per_day').val());
+                const days = parseInt($('#days').val());
+                const resolution = parseFloat($('#resolution').val().split('MP')[0]);
+                const frameRate = parseInt($('#frame_rate').val());
+                const quality = parseInt($('#quality').val());
+                const compression = parseInt($('#compression').val());
+
+                // Calculer la taille du stockage
+                const bitRateKbps = (resolution * 1000000 * cameras * quality * (frameRate / compression)) / 1024;
+                const bitRateMbps = Math.round(bitRateKbps / 1000);
+                const storageGb = (bitRateKbps * hoursPerDay * days / 8 / 1024 / 1024) * 1000;
+                const storageTb = Math.round(storageGb / 1024, 2);
+
+                // Ajouter les résultats à la table 
+                const rowNumber = $('#results-body tr').length + 1;
+                const row = `
+                <tr>
+                    <th scope="row">${rowNumber}</th>
+                    <td>${cameras}</td>
+                    <td>${hoursPerDay}</td>
+                    <td>${days}</td>
+                    <td>${resolution}</td>
+                    <td>${storageGb.toFixed(2)} GB </td>
+                    <td>${bitRateKbps.toFixed(2)} Kbps</td>
+                    <td>${bitRateMbps.toFixed(2)} Mbps</td>
+                </tr>
+            `;
+                $('#results-body').append(row);
+
+                // Mettre à jour les totaux
+                updateTotalStorage();
+                updateTotalBitrate();
+            }
+
+            // Fonction pour réinitialiser les résultats
+            function resetStorage() {
+                $('#results-body').empty();
+                $('#total-storage').empty();
+                $('#total-bitrate').empty();
+            }
+
+            // Fonction pour mettre à jour le total de la taille du stockage
+            function updateTotalStorage() {
+                let totalStorageGb = 0;
+                $('#results-body tr').each(function () {
+                    const storageText = $(this).find('td:nth-child(6)').text();
+                    const storageGb = parseFloat(storageText.split(' ')[0]);
+                    totalStorageGb += storageGb; 
+                });
+
+                const totalStorageTb = totalStorageGb / 1024;
+                const totalStorageHtml =
+                    `<div class="alert alert-info">Total taille HDD : ${totalStorageGb.toFixed(2)} GB (${totalStorageTb.toFixed(2)} TB)</div>`;
+                $('#total-storage').html(totalStorageHtml);
+            }
+
+            // Fonction pour mettre à jour le total du débit binaire
+            function updateTotalBitrate() {
+                let totalBitrateKbps = 0;
+                $('#results-body tr').each(function () {
+                    const bitrateKbpsText = $(this).find('td:nth-child(7)').text();
+                    const bitrateKbps = parseFloat(bitrateKbpsText.split(' ')[0]);
+                    totalBitrateKbps += bitrateKbps;
+                });
+
+                const totalBitrateMbps = totalBitrateKbps / 1000;
+                const totalBitrateHtml =
+                    `<div class="alert alert-info">Total Bit rate : ${totalBitrateKbps.toFixed(2)} Kbps (${totalBitrateMbps.toFixed(2)} Mbps)</div>`;
+                $('#total-bitrate').html(totalBitrateHtml);
+            }
+
+            // Soumettre le formulaire pour calculer la taille du stockage
+            $('#storage-form').submit(function (e) {
+                e.preventDefault();
+                calculateStorage();
+            });
+
+            // Réinitialiser les résultats
+            $('#reset-btn').click(function () {
+                resetStorage();
+            });
+            // Fonction pour exporter le tableau au format Excel
+            function exportToExcel() {
+                const wb = XLSX.utils.table_to_book(document.getElementById('results-table'));
+
+                // Ajouter le total de la taille HDD et le total du débit binaire au classeur Excel
+                const totalStorage = document.getElementById('total-storage').innerText;
+                const totalBitrate = document.getElementById('total-bitrate').innerText;
+                wb.SheetNames.push('Totals');
+                const ws = XLSX.utils.sheet_add_aoa(wb.Sheets['Totals'], [
+                    [totalStorage],
+                    [totalBitrate]
+                ]);
+                wb.Sheets['Totals'] = ws;
+                // Télécharger le fichier Excel
+                XLSX.writeFile(wb, 'stockage.xlsx');
+            }
+
+            // Attacher l'événement de clic au bouton d'exportation
+            $('#export-btn').click(function () {
+                exportToExcel();
+            });
+
+            function calculateJBOD() {
+                const totalHDD = parseInt($('#total-hdd').val());
+                const unitHDD = parseInt($('#unit-hdd').val());
+
+                // Calcul de JBOD
+                const result = Math.ceil(totalHDD / unitHDD);
+                const resultText = `NB HDD: ${result} `;
+                const volume = result*unitHDD
+                const volumeText = `VOLUME: ${volume } TB`;
+                // Afficher les résultats
+                $('#result-text').text(resultText);
+                $('.result').show();
+                $('#volume-text').text(volumeText);
+                
+}
+
+            function calculateRAID0() {
+                const totalHDD = parseInt($('#total-hdd').val());
+                const unitHDD = parseInt($('#unit-hdd').val());
+                const result = Math.ceil(totalHDD / unitHDD);
+                const resultFinal = Math.round(result * 100) / 100;
+                const resultText = `NB HDD: ${resultFinal} `;
+                const volume = resultFinal*unitHDD
+                const volumeText = `VOLUME: ${volume } TB`;
+                $('#result-text').text(resultText);
+                $('.result').show();
+                $('#volume-text').text(volumeText);
+
+ 
+            }
+
+            function calculateRAID1() {
+                const totalHDD = parseFloat(document.getElementById("total-hdd").value);
+                const unitHDD = parseFloat(document.getElementById("unit-hdd").value);
+                const result = Math.ceil(totalHDD / unitHDD) * 2;
+                const resultText = `NB HDD: ${result} `;
+                const volume = result*unitHDD
+                const volumeText = `VOLUME: ${volume } TB`;
+                // Afficher les résultats
+                $('#result-text').text(resultText);
+                $('.result').show();
+                $('#volume-text').text(volumeText);
+            }
+
+            function calculateRAID5() {
+                const totalHDD = parseFloat(document.getElementById("total-hdd").value);
+                const unitHDD = parseFloat(document.getElementById("unit-hdd").value);
+                const result = Math.ceil((totalHDD / unitHDD) + 1) > 3 ? Math.ceil((totalHDD / unitHDD) + 1) : Math.ceil((
+                    totalHDD / unitHDD) + 1) + 1;
+                const resultText = `NB HDD: ${result} `;
+                const volume = result*unitHDD
+                const volumeText = `VOLUME: ${volume } TB`;
+                // Afficher les résultats
+                $('#result-text').text(resultText);
+                $('.result').show();
+                $('#volume-text').text(volumeText);
+            }
+
+            function calculateRAID10() {
+                var totalHDD = parseFloat(document.getElementById("total-hdd").value);
+                var unitHDD = parseFloat(document.getElementById("unit-hdd").value);
+                var result = Math.ceil(totalHDD / unitHDD);
+                var result1 = Math.round(result * 100) / 100 * 2;
+                if (unitHDD % 2 === 0) {
+                    result1 += 2;
+                }
+                const resultText = `NB HDD: ${result1} `;
+                const volume = result1*unitHDD
+                const volumeText = `VOLUME: ${volume } TB`;
+                // Afficher les résultats
+                $('#result-text').text(resultText);
+                $('.result').show();
+                $('#volume-text').text(volumeText);
+            }
+        </script>
+</body>
+</html>

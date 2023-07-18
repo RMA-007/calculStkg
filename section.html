@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section du câble</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        
+
+        header {
+            background-color: #7e828b;
+            padding: 20px 20px;
+            text-align: center;
+            background-image: url("logo.png");
+            background-repeat: no-repeat;
+            background-position: left;
+            background-size: contain;
+        }
+
+       /* Ajout du style pour les choix dans l'en-tête */
+       .header-buttons {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 20px;
+        }
+
+        .header-buttons button {
+            margin-left: 10px;
+            border: none;
+            background: none;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .header-buttons button:hover ,
+        .header-buttons button.active {
+            color: #b4e9f2;
+        }
+
+        .header-buttons button:focus {
+            outline: none;
+        }
+        
+        .container {
+            position: relative;
+            max-width: 1200px;
+            height: 700px;
+            margin: 10px auto;
+            padding: 3px;
+            background-color: #c9d3e1e7;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgb(120, 94, 94);
+            margin-top: 10px;
+            
+
+        }
+
+        .blur-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url("câble.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            filter: blur(5px);
+            /* flou  */
+        }
+
+        h1 {
+            color: #374461;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 970px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 30%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .indications-container {
+            background-color: #edf2fa;
+            width: 550px;
+            padding: 20px;
+            border-radius: 4px;
+            position: absolute;
+            top:35px; /* Ajustez la valeur selon votre besoin */
+            left: 630px; /* Ajustez la valeur selon votre besoin */
+            z-index: 999; /* Assurez-vous que le z-index est supérieur à celui des autres éléments pour qu'il reste visible */
+}
+        
+
+        .indications-container p {
+            
+            margin: 0;
+            margin-bottom: 10px;
+        }
+        .btn-primary {
+            background-color: #c10909;
+
+            margin-top: -170px;
+            margin-left: 630px;
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+        .btn-primary:hover {
+            background-color: #63cbcb;
+        }
+
+        .btn-secondary {
+            background-color: #758181;
+            margin-top: -170px;
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+
+        }
+        .btn-secondary:hover {
+            background-color: #f96f6f;
+        }
+
+        .btn-export{
+            background-color: green;
+            margin-top: -170px;
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+            color: white;
+
+        }
+        .btn-export:hover {
+            background-color: #6aeb6a;
+        }
+
+        .table-container {
+            height: 300px;
+            /* Définissez la hauteur souhaitée */
+            overflow: auto;
+        }
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            z-index: 1;
+        }
+        .new_container {
+                max-width: 1200px;
+                margin: 0px auto;
+                padding: 3px;
+                background-color: #9da7b5d2;
+                border-radius: 20px;
+                box-shadow: 0 4px 8px rgb(224, 200, 200);
+                margin-top: 10px
+            }
+        .delete-row {
+        color: red;
+        cursor: pointer;
+        }
+        .colored {
+        background-color: #e7e1e1; /* Remplacez cette couleur par celle que vous souhaitez pour les colonnes */
+        }
+        .colored-text {
+            color: rgb(143, 47, 47); /* Remplacez cette couleur par celle que vous souhaitez pour le texte */
+            /* Vous pouvez également ajouter d'autres propriétés CSS pour personnaliser davantage le style du texte */
+        }
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-buttons">
+            <button onclick="goToInterface('bilan')">Bilan de puissance</button>
+            <button onclick="goToInterface('section')"class="active">Calcul section câble</button>
+            <button onclick="goToInterface('batterie')" >Capacité de batterie</button>
+            <button onclick="goToInterface('stockage')">Calcul de stockage</button>
+        </div>
+    </header>
+    <div class="blur-background"></div>
+    <div class="container">
+        <h1>Section câble</h1>
+        <form>
+            <div class="form-group">
+                <label for="Loc">Localisation</label>
+                <input type="text" id="Loc" name="Loc" placeholder="Localisation">
+            </div>
+            <div class="form-group">
+                <label for="U">Tension [V]</label>
+                <input type="number" id="U" name="U" placeholder="Tension">
+            </div>
+            <div class="form-group">
+                <label for="L">Longueur [m]</label>
+                <input type="number" id="L" name="L" placeholder="Longueur">
+            </div>
+            <div class="form-group">
+                <label for="r">Résistivité ρ</label>
+                <select id="r" name="r">
+                    <option value="23">Cuivre = 0.023</option>
+                    <option value="37">Alu = 0.037</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="chute">Chute de tension[%]</label>
+                <select id="chute" name="chute">
+                    <option value="1">1%</option>
+                    <option value="2">2%</option>
+                    <option value="3">3%</option>
+                    <option value="4">4%</option>
+                    <option value="5">5%</option>
+                    <option value="6">6%</option>
+                    <option value="7">7%</option>
+                    <option value="8">8%</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Pu">Puissance [W]</label>
+                <input type="number" id="Pu" name="Pu" placeholder="Puissance">
+            </div>
+        
+        </form>
+
+        <div class="indications-container">
+            <p>Tension (U) en volt (V)</p>
+            <p>Chute de tension (ΔU) en %</p>
+            <p>Chute de tension relative (U') en volt (V)</p>
+            <p>Résistivité du conducteur ρ </p>
+            <p>Longueur (L) en mètre (m)</p>
+            <p>Section (S) en mm²</p>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary" id="calculate-btn">Calculer</button>
+            <button type="button" class="btn btn-secondary" id="reset-btn">Réinitialiser</button>
+            <button id="export-btn" class="btn btn-export">Exporter</button>
+        </div>
+
+        <div class="table-container">
+            <table class="table" id="results-table">
+                <thead>
+                    <tr class="sticky-header">
+                        <th scope="col">Localisation </th>
+                        <th scope="col">U[V]</th>
+                        <th scope="col">L[m]</th>
+                        <th scope="col">Résistivité [ρ]</th>
+                        <th scope="col">Chute de tension [%]</th>
+                        <th scope="col">Pu[W]</th>
+                        <th scope="col" class="colored">U' Relative [V]</th> <!-- Ajouter la classe 'colored' à cette colonne -->
+                        <th scope="col" class="colored">Section minimum [mm²]</th> 
+                        <th scope="col" class="colored"></th>
+                    </tr>
+                </thead>
+                <tbody id="results-body">
+                </tbody>
+            </table>
+        </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+    <script>
+        // Fonction pour rediriger vers l'interface correspondante
+        function goToInterface(interface) {
+            if (interface === 'bilan') {
+                // Redirection vers l'interface du bilan de puissance
+                window.location.href = "bilan.html";
+            } else if (interface === 'section') {
+                // Redirection vers l'interface du calcul de section câble
+
+                console.log("Vous êtes déjà sur l'interface du calcul de section câble");
+            } else if (interface === 'batterie') {
+                // Redirection vers l'interface de la capacité de batterie
+                window.location.href = "batterie.html";
+            } else if (interface === 'stockage') {
+                // Restez sur l'interface de calcul de stockage (interface actuelle)
+                window.location.href = "index.html";
+            }
+        }
+
+        function resetStorage() {
+            $('#results-body').empty();
+            document.getElementById('Loc').value = ""; // Réinitialiser le contenu du span
+            document.getElementById('U').value = '';
+            document.getElementById('L').value = '';
+            document.getElementById('r').value = '23';
+            document.getElementById('chute').value = '1';
+            document.getElementById('Pu').value = '';
+
+        }
+
+                // Appel de la fonction de calcul
+        function calcul() {
+            let rowCount = 0;
+            // Obtenir les valeurs des champs du formulaire
+
+            const Loc = document.getElementById('Loc').value;
+            const U = parseInt(document.getElementById('U').value);
+
+            const L = parseInt(document.getElementById('L').value);
+            const r = parseInt(document.getElementById('r').value);
+            const chute = parseFloat(document.getElementById('chute').value);
+            const Pu = parseInt(document.getElementById('Pu').value);
+
+            const I = Pu / U;
+            const Ur = (U*chute) / 100;
+            const L2 = 2*L
+            const res= r/1000
+            const Ub= Ur*U
+
+            const S = (res*L2*I)/Ur;
+
+
+            // Ajouter les résultats à la table
+            const row = `
+                <tr>
+                    <th scope="row" class="row-number">${Loc}</th>
+                    <td>${U}</td>
+                    <td>${L}</td>
+                    <td>${res}</td>
+                    <td>${chute}</td>
+                    <td>${Pu}</td>
+                    <td class="colored-text">${Ur}</td> <!-- Ajoutez la classe 'colored-text' à cette cellule -->
+                    <td class="colored-text">${S.toFixed(2)}</td> 
+                    <td><i class="fas fa-trash delete-row" onclick="deleteRow(this)"></i></td>
+                </tr>
+            `;
+            const tableBody = document.getElementById('results-body');
+            const newRow = tableBody.insertRow();
+            newRow.innerHTML = row;
+
+        }
+
+
+        // Ajoutez l'événement onclick au bouton "Calculer"
+        var boutonCalculer = document.querySelector("#calculate-btn");
+        boutonCalculer.addEventListener("click", calcul);
+
+
+        // Ajoutez un gestionnaire d'événements pour le clic sur l'icône "corbeille"
+        $(document).on('click', '.fa-trash', function() {
+        $(this).closest('tr').remove(); // Supprime la ligne correspondante
+        })
+
+        // Réinitialiser les résultats
+        var boutonReset = document.querySelector("#reset-btn");
+        boutonReset.addEventListener("click", resetStorage);
+
+        var boutonExport = document.querySelector("#export-btn");
+        boutonExport.addEventListener("click", exportToExcel);
+
+        function exportToExcel() {
+            // Get the table data
+            const table = document.getElementById('results-table');
+            const ws = XLSX.utils.table_to_sheet(table);
+
+            // Create a new workbook and add the worksheet
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Résultats');
+
+            // Generate the Excel file
+            const date = new Date().toISOString().slice(0, 10);
+            const filename = "section_" + date + ".xlsx";
+            XLSX.writeFile(wb, filename);
+        }
+
+
+    </script>
+</body>
+</html>

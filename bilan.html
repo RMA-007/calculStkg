@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilan de puissance</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        header {
+            background-color: #7e828b;
+            padding: 20px;
+            text-align: center;
+            background-image: url("logo.png");
+            background-repeat: no-repeat;
+            background-position: left;
+            background-size: contain;
+        }
+
+        /* Ajout du style pour les choix dans l'en-tête */
+        .header-buttons {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 20px;
+        }
+
+        .header-buttons button {
+            margin-left: 10px;
+            border: none;
+            background-color: transparent;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .header-buttons button:hover ,
+        .header-buttons button.active {
+            color: #b4e9f2;
+        }
+
+        .header-buttons button:focus {
+            outline: none;
+        }
+
+        .container {
+            position: relative;
+            max-width: 1200px;
+            margin: 10px auto;
+            padding: 3px;
+            background-color: #c9d3e1e7;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgb(120, 94, 94);
+            margin-top: 10px;
+            
+
+        }
+
+        .blur-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url("bilan.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            filter: blur(5px);
+            /* flou  */
+        }
+
+        h1 {
+            color: #374461;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 900px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 30%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .indications-container {
+            background-color: #edf2fa;
+            width: 550px;
+            padding: 20px;
+            border-radius: 4px;
+            position: absolute;
+            top:35px; /* Ajustez la valeur selon votre besoin */
+            left: 630px; /* Ajustez la valeur selon votre besoin */
+            z-index: 999; /* Assurez-vous que le z-index est supérieur à celui des autres éléments pour qu'il reste visible */
+}
+        
+
+        .indications-container p {
+            
+            margin: 0;
+            margin-bottom: 10px;
+        }
+        .btn-primary {
+            background-color: #c10909;
+
+            margin-top: -400px;
+            margin-left: 630px;
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+        .btn-primary:hover {
+            background-color: #63cbcb;
+        }
+
+        .btn-secondary {
+            background-color: #758181;
+            margin-top: -400px;
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+
+        }
+        .btn-secondary:hover {
+            background-color: #f96f6f;
+        }
+
+        .btn-export{
+            background-color: green;
+            margin-top: -400px;
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+            color: white;
+
+        }
+        .btn-export:hover {
+            background-color: #6aeb6a;
+        }
+
+        .table-container {
+            height: 200px;
+            /* Définissez la hauteur souhaitée */
+            overflow: auto;
+        }
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            z-index: 1;
+        }
+        .new_container {
+                max-width: 1200px;
+                margin: 0px auto;
+                padding: 3px;
+                background-color: #9da7b5d2;
+                border-radius: 20px;
+                box-shadow: 0 4px 8px rgb(224, 200, 200);
+                margin-top: 10px
+            }
+        .delete-row {
+        color: red;
+        cursor: pointer;
+        }
+
+        .colored {
+        background-color: #e7e1e1; /* Remplacez cette couleur par celle que vous souhaitez pour les colonnes */
+        }
+        .colored-text {
+            color: rgb(143, 47, 47); /* Remplacez cette couleur par celle que vous souhaitez pour le texte */
+            /* Vous pouvez également ajouter d'autres propriétés CSS pour personnaliser davantage le style du texte */
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-buttons">
+            <button onclick="goToInterface('bilan')" class="active">Bilan de puissance</button>
+            <button onclick="goToInterface('section')">Calcul section câble</button>
+            <button onclick="goToInterface('batterie')">Capacité de batterie</button>
+            <button onclick="goToInterface('stockage')">Calcul de stockage</button>
+        </div>
+    </header>
+    <div class="blur-background"></div>
+    <div class="container">
+        <h1>BILAN DE PUISSANCE</h1>
+        <form>
+            <div class="form-group">
+                <label for="site">Site:</label>
+                <input type="text" id="site" name="site" placeholder="Site">
+            </div>
+            <div class="form-group">
+                <label for="designation">Désignation:</label>
+                <input type="text" id="designation" name="designation" placeholder="Désignation">
+            </div>
+            <div class="form-group">
+                <label for="qtt">Quantité:</label>
+                <input type="number" id="qtt" name="qtt" placeholder="Quantité">
+            </div>
+            <div class="form-group">
+                <label for="pu">Pu (W):</label>
+                <input type="number" id="pu" name="pu" placeholder="Pu (W)">
+            </div>
+            <div class="form-group">
+                <label for="cos">cos Φ:</label>
+                <input type="text" id="cos" name="cos" placeholder="cos Φ" value= "0.7" readonly>
+            </div>
+            <div class="form-group">
+                <label for="ku">Coeff Ku:</label>
+                <input type="number" id="ku" name="ku" placeholder="Coeff Ku" value= "1" readonly>
+            </div>
+            <div class="form-group">
+                <label for="ks">Coeff Ks:</label>
+                <input type="number" id="ks" name="ks" placeholder="Coeff Ks" value= "1" readonly>
+            </div>
+
+            <div class="indications-container">
+                <p>Pu : Puissance </p>
+                <p>cos Φ : Facteur de puissance </p>
+                <p>Ku: Taux d'utilisation de la charge en fonction du temps</p>
+                <p>Ks: Condition d'explotation de l'installation pour les prises de courant</p>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary" id="calculate-btn">Calculer</button>
+                <button type="button" class="btn btn-secondary" id="reset-btn">Réinitialiser</button>
+                <button type="button" id="export-btn" class="btn btn-export">Exporter</button>
+
+            </div>
+
+            <div class="table-container">
+                <table class="table" id="results-table">
+                    <thead>
+
+                        <tr class="sticky-header">
+                            <th scope="col">Désignation</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Pu[W]</th>
+                            <th scope="col">cos Φ</th>
+                            <th scope="col"class="colored">Total [VA]</th>
+                            <th scope="col"class="colored">Total [W]</th>
+                            <th scope="col"class="colored"></th>
+                            <th scope="col"class="colored"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="results-body"></tbody>
+                    <tfoot id="results-foot">
+                        <!-- Nouvelle ligne pour le texte du champ "site" -->
+
+                        <tr>
+                            <td colspan="4"></td>
+                            <td class="colored-text" id="total-va"></td>
+                            <td class="colored-text" id="total-w"></td>
+                            <td class="colored-text" ><strong>Total</strong></td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="6" style="text-align: center; font-weight: bold; text-transform: uppercase;"><span id="site-text"></span></td>
+                        </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="colored-text" id="response-container">
+            Soit une intensité de <span id="intensity">0</span> [A]:
+        </div>
+        
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+    <script>
+
+        // Fonction pour rediriger vers l'interface correspondante
+        function goToInterface(interface) {
+            if (interface === 'bilan') {
+                // Redirection vers l'interface du bilan de puissance
+                console.log("Vous êtes déjà sur l'interface du bilan de puissance");
+            } else if (interface === 'section') {
+                // Redirection vers l'interface du calcul de section câble
+                window.location.href = "section.html";
+            } else if (interface === 'batterie') {
+                // Redirection vers l'interface de la capacité de batterie
+                window.location.href = "batterie.html";
+            } else if (interface === 'stockage') {
+                // Restez sur l'interface de calcul de stockage (interface actuelle)
+                window.location.href = "index.html";
+            }
+        }
+
+        
+        function resetStorage() {
+            $('#results-body').empty();
+            document.getElementById('site-text').textContent = ""; // Réinitialiser le contenu du span
+            document.getElementById('pu').value = '';
+            document.getElementById('qtt').value = '';
+            document.getElementById('designation').value = '';
+            document.getElementById('site').value = '';
+            document.getElementById('intensity').textContent = '0.00';
+
+            sumTotalVA = 0;
+            sumTotalW = 0;
+            // Mettre à jour les totaux dans les cellules correspondantes
+            const cellTotalVA = document.getElementById('total-va');
+            const cellTotalW = document.getElementById('total-w');
+            cellTotalVA.innerText = '0';
+            cellTotalW.innerText = '0';
+
+            
+
+        }
+
+        let sumTotalVA = 0;
+        let sumTotalW = 0;
+
+        
+
+        
+        // Appel de la fonction de calcul
+        function calcul() {
+            let rowCount = 0;
+            // Obtenir les valeurs des champs du formulaire
+            const site = document.getElementById('site').value;
+            document.getElementById('site-text').textContent = site;
+        
+            const designation = document.getElementById('designation').value;
+            const pu = parseInt(document.getElementById('pu').value);
+            const qtt = parseInt(document.getElementById('qtt').value);
+            const ku = parseInt(document.getElementById('ku').value);
+            const ks = parseInt(document.getElementById('ks').value);
+            const cos = parseFloat(document.getElementById('cos').value.replace(',', '.'));
+        
+            const totPU = qtt * pu;
+            const pa = (totPU / 0.7) * 1;
+            const totVA = pa * 1;
+            const totW = totVA * cos;
+
+
+        
+            // Ajouter les résultats à la table
+            const row = `
+                <tr>
+                    <th scope="row" class="row-number">${designation}</th>
+                    <td>${qtt}</td>
+                    <td>${pu}</td>
+                    <td>${cos}</td>
+                    <td class="colored-text">${Math.ceil(totVA)}</td>
+
+                    <td class="colored-text">${Math.round(totW)}</td>
+                    <td><i class="fas fa-trash delete-row" onclick="deleteRow(this)"></i></td>
+                </tr>
+            `;
+            
+
+            const tableBody = document.getElementById('results-body');
+            const newRow = tableBody.insertRow();
+            newRow.innerHTML = row;
+
+            
+            // Mettre à jour les totaux cumulés
+            sumTotalVA += totVA;
+            sumTotalW += totW;
+            
+            // Après avoir ajouté une nouvelle ligne dans la fonction 'calcul()'
+            const cellTotalVA = document.getElementById('total-va');
+            const cellTotalW = document.getElementById('total-w');
+
+            // Mettre à jour les totaux cumulés dans les cellules correspondantes
+            cellTotalVA.innerText =  Math.ceil(sumTotalVA);
+            cellTotalW.innerText = sumTotalW.toFixed(0);
+
+            // Calculer l'intensité
+            const intensity = sumTotalVA / 230;
+
+            // Afficher l'intensité dans le conteneur approprié
+            document.getElementById('intensity').textContent = intensity.toFixed(2);
+        }
+
+        
+        
+
+        // Ajoutez un gestionnaire d'événements pour le clic sur l'icône "corbeille"
+        let totalVA = 0;
+        $(document).on('click', '.fa-trash', function() {
+
+            const rowElement = $(this).closest('tr');
+            const vaCell = rowElement.find('td:nth-child(5)');
+            const wCell = rowElement.find('td:nth-child(6)');
+            const vaValue = parseInt(vaCell.text());
+            const wValue = parseInt(wCell.text());
+        
+            sumTotalVA -= vaValue;
+            sumTotalW -= wValue;
+        
+            rowElement.remove();
+
+            // Mettre à jour la valeur affichée de l'intensité
+            document.getElementById('intensity').textContent = (sumTotalVA / 230).toFixed(2);
+        
+            // Mettre à jour les totaux cumulés dans les cellules correspondantes
+            const cellTotalVA = document.getElementById('total-va');
+            const cellTotalW = document.getElementById('total-w');
+            cellTotalVA.innerText = sumTotalVA.toFixed(0);
+            cellTotalW.innerText = sumTotalW.toFixed(0);
+        });
+
+        
+        // Ajoutez un gestionnaire d'événements pour le clic sur le bouton "Calculer"
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+        
+            // Mettre à jour les totaux avant le calcul
+            calcul(); // Appelle la fonction de calcul
+        
+        });
+        
+        // Réinitialiser les résultats
+        var boutonReset = document.querySelector("#reset-btn");
+        boutonReset.addEventListener("click", resetStorage);
+        
+        var boutonExport = document.querySelector("#export-btn");
+        boutonExport.addEventListener("click", exporterDonnees);
+
+        function exporterDonnees() {
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.table_to_sheet(document.getElementById('results-table'));
+
+            // Ajoutez le contenu de results-foot au tableau de données
+            var footRow = ws['!rows'].length; // Obtenez le numéro de ligne de results-foot
+            var footContent = "SITE:" +document.getElementById('results-foot').innerHTML;
+            var parser = new DOMParser();
+            var footDOM = parser.parseFromString(footContent, 'text/html');
+            var cells = footDOM.querySelectorAll('th, td');
+
+            cells.forEach(function (cell, index) {
+                var cellRef = XLSX.utils.encode_cell({ r: footRow, c: index });
+                var cellValue = cell.innerText;
+                XLSX.utils.sheet_add_aoa(ws, [[cellValue]], { origin: cellRef });
+            });
+
+            // Ajoutez le contenu de l'intensité
+
+            var intensity = "Intensité en [A]:" +document.getElementById('intensity').innerText;
+            var intensityRow = footRow + 10;
+            var intensityRef = XLSX.utils.encode_cell({ r: intensityRow, c: 0 });
+            XLSX.utils.sheet_add_aoa(ws, [[intensity]], { origin: intensityRef });
+
+
+        
+            XLSX.utils.book_append_sheet(wb, ws, 'Résultats');
+            // Générez le fichier Excel
+            var date = new Date().toISOString().slice(0, 10);
+            var filename = "Puissance_" + date + ".xlsx";
+            XLSX.writeFile(wb, filename);
+        }
+        </script>
+        
+</body>
+</html>
